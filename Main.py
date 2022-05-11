@@ -44,10 +44,17 @@ class Tela():
     num_cor = 0
     num_cor_do_texto = 0
     sorteio = True
+    cor_clicada = ""
+    dic = {}
     
     # pos_x = (SCREEN_SIZE[0]-500)/2
     
     # def __init__(self):
+    
+    
+    def inicializa_dicionario(self):
+        
+        dic = {vetor_cores_nomes[0]:"", vetor_cores_nomes[1]:"", vetor_cores_nomes[2]:"", vetor_cores_nomes[3]:""}
         
 
     def desenha_circulos(self):
@@ -56,7 +63,9 @@ class Tela():
         i = 0
         for cor in vetor_cores:
             rect = pygame.draw.circle(screen, cor, (self.vetor_posicao_circulos[i], self.pos_y), 50)
-            vetor_rects[i] = rect    
+            vetor_rects[i] = rect
+            self.dic[vetor_cores_nomes[i]]=rect
+              
             i+=1
             
             
@@ -70,10 +79,22 @@ class Tela():
         
         if  click[0]:
             for rect in vetor_rects:
+                
                 point = pygame.mouse.get_pos()
                 collide = rect.collidepoint(point)
+                
+                print(self.cor_clicada)
+                
                 if collide:
-                    print("COLIDIU") 
+                    for item in self.dic.keys():
+                        if (rect == self.dic[item]):
+                            print("ACHEI")
+                            print(f'chave:{item}')
+                            
+                            # ELE ESTA RECONHECENDO A COR ONDE EH CLICADO POR CONTA DO DICIONARIO QUE EU CRIEI. AGORA PRECISO APENAS ASSOCIAR COM A POSICAO SORTEADA NO INICIO 
+                    
+                    print("COLIDIU    " + str(point) )
+                    
                     self.flag_colisao = True
                     self.sorteio = True
                     break
@@ -88,7 +109,10 @@ class Tela():
             
     def escreveCorNaTela(self):
         textofinal = font.render((vetor_cores_nomes[self.num_cor]), True, (vetor_cores[self.num_cor_do_texto]))
-        screen.blit(textofinal, (350, 125))             
+        screen.blit(textofinal, (350, 125))       
+        
+    # def checaAcerto(self):
+                  
                 
         
         # for circulo in self.vetor_posicao_circulos:
