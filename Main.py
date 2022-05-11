@@ -46,6 +46,7 @@ class Tela():
     sorteio = True
     cor_clicada = ""
     dic = {}
+    pontos = 0
     
     # pos_x = (SCREEN_SIZE[0]-500)/2
     
@@ -91,6 +92,10 @@ class Tela():
                             print("ACHEI")
                             print(f'chave:{item}')
                             
+                            if (item == vetor_cores_nomes[self.num_cor]):
+                                print ("MESMA COR!")
+                                self.pontos+=1
+                            
                             # ELE ESTA RECONHECENDO A COR ONDE EH CLICADO POR CONTA DO DICIONARIO QUE EU CRIEI. AGORA PRECISO APENAS ASSOCIAR COM A POSICAO SORTEADA NO INICIO 
                     
                     print("COLIDIU    " + str(point) )
@@ -109,7 +114,11 @@ class Tela():
             
     def escreveCorNaTela(self):
         textofinal = font.render((vetor_cores_nomes[self.num_cor]), True, (vetor_cores[self.num_cor_do_texto]))
-        screen.blit(textofinal, (350, 125))       
+        screen.blit(textofinal, (350, 125))     
+        
+    def escrevePontosNaTela(self):
+        textoPontos = font.render(str(self.pontos), True, BRANCO_COR)   
+        screen.blit(textoPontos, (750,30))   
         
     # def checaAcerto(self):
                   
@@ -149,7 +158,8 @@ while running:
             running = False
 
     
-    screen.fill(BRANCO_COR)
+    screen.fill(PRETO_COR)
+    tela_obj.escrevePontosNaTela()
     tela_obj.desenha_circulos()
     tela_obj.sorteiaCor()
     tela_obj.escreveCorNaTela()
