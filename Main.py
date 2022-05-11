@@ -22,8 +22,17 @@ FPS = 10 # frames per second setting
 fpsClock = pygame.time.Clock()
 
 
+#caminhos pastas
+caminho_fontes = "fonts//"
+
+
+
 #fontes
-font = pygame.font.SysFont('arial',40)
+arial_font = pygame.font.SysFont('arial',40)
+quickens_font = pygame.font.Font(caminho_fontes+"QUICKENS.ttf",55)
+yogurt_mango_font = pygame.font.Font(caminho_fontes+"Yogurt Mango.ttf", 40)
+
+
 
 #Vetores
 vetor_cores=[ROSA_COR, AMARELO_CLARO_COR, AZUL_COR, VERDE_COR]
@@ -113,35 +122,14 @@ class Tela():
             self.sorteio = False
             
     def escreveCorNaTela(self):
-        textofinal = font.render((vetor_cores_nomes[self.num_cor]), True, (vetor_cores[self.num_cor_do_texto]))
+        textofinal = quickens_font.render((vetor_cores_nomes[self.num_cor]), True, (vetor_cores[self.num_cor_do_texto]))
         screen.blit(textofinal, (350, 125))     
         
     def escrevePontosNaTela(self):
-        textoPontos = font.render(str(self.pontos), True, BRANCO_COR)   
-        screen.blit(textoPontos, (750,30))   
+        textoPontos = yogurt_mango_font.render(str(self.pontos), True, BRANCO_COR)   
+        screen.blit(textoPontos, (710,30))   
         
-    # def checaAcerto(self):
-                  
-                
-        
-        # for circulo in self.vetor_posicao_circulos:
-        #     x,y = pygame.mouse.get_pos()
-        #     print(type(x))
-        #     self.vetor_pos[0]=x
-        #     print(type(self.vetor_pos[0]))
-        #     self.vetor_pos[1]=y
-        #     print(type(self.vetor_pos[1]))
-        #
-        #     # if (self.vetor_pos[0]-25 >= circulo) or (self.vetor_pos[0] <= circulo) or (self.vetor_pos[1] >=circulo) or (self.vetor_pos <= circulo):
-        #     #
-        #     #
-        #     # if ()
-        #     #
-        #     #     print("ESTA DENTRO" + str(x) + str(y))
-        #     # else:
-        #     #     print("ESTA FORA")
-        # self.vetor_pos[0] = 0
-        # self.vetor_pos[1] = 0
+    
             
     
 
