@@ -17,6 +17,7 @@ AMARELO_CLARO_COR= (255, 255, 27)
 AZUL_COR=(55, 102, 253)
 VERDE_COR=(55, 251, 49)
 PRETO_COR=(0,0,0)
+VERDE_LIMAO_COR=(169, 255, 36)
 
 FPS = 10 # frames per second setting
 fpsClock = pygame.time.Clock()
@@ -31,6 +32,7 @@ caminho_fontes = "fonts//"
 arial_font = pygame.font.SysFont('arial',40)
 quickens_font = pygame.font.Font(caminho_fontes+"QUICKENS.ttf",55)
 yogurt_mango_font = pygame.font.Font(caminho_fontes+"Yogurt Mango.ttf", 40)
+yogurt_mango_font_maior = pygame.font.Font(caminho_fontes+"Yogurt Mango.ttf", 50)
 
 
 
@@ -39,11 +41,15 @@ vetor_cores=[ROSA_COR, AMARELO_CLARO_COR, AZUL_COR, VERDE_COR]
 vetor_rects=[0,0,0,0]
 vetor_cores_nomes=["Rosa", "Amarelo", "Azul", "Verde"]
 
-#Flags 
+#Flags
+tela_inicio_jogo = True 
+comeco_jogo = False
 
 
 class Tela():
     
+    tela_inicio_jogo = True 
+    comeco_jogo = False
     valor = 125
     pos_x = 0
     pos_y = 0
@@ -123,12 +129,28 @@ class Tela():
             
     def escreveCorNaTela(self):
         textofinal = quickens_font.render((vetor_cores_nomes[self.num_cor]), True, (vetor_cores[self.num_cor_do_texto]))
-        screen.blit(textofinal, (350, 125))     
+        screen.blit(textofinal, (350, 155))     
         
     def escrevePontosNaTela(self):
         textoPontos = yogurt_mango_font.render(str(self.pontos), True, BRANCO_COR)   
         screen.blit(textoPontos, (710,30))   
         
+        
+    def telaDeInicio(self):
+        screen.fill(PRETO_COR)
+        textoTitulo = yogurt_mango_font_maior.render("Troca-cor", True, VERDE_LIMAO_COR)
+        screen.blit(textoTitulo, (300,230))
+        
+        
+        pygame.event.pump()
+        click = pygame.mouse.get_pressed()
+        
+        if  click[0]:
+            print("CLICADO")
+            self.tela_inicio_jogo = False
+            self.comeco_jogo = True
+        
+            
     
             
     
@@ -137,24 +159,22 @@ class Tela():
 running = True
 tela_obj = Tela()
 while running:
-
-    # Did the user click the window close button?
-    for event in pygame.event.get():
-        
-        
-        if event.type == pygame.QUIT:
-            running = False
-
     
-    screen.fill(PRETO_COR)
-    tela_obj.escrevePontosNaTela()
-    tela_obj.desenha_circulos()
-    tela_obj.sorteiaCor()
-    tela_obj.escreveCorNaTela()
+    #Carrega a tela de inicio e aguarda um clique para iniciar o jogo
+    if tela_obj.tela_inicio_jogo:
+        tela_obj.telaDeInicio()
+    
     
 
     
-    tela_obj.checa_colisao()
+   
+    if tela_obj.comeco_jogo:
+        screen.fill(PRETO_COR)
+        tela_obj.escrevePontosNaTela()
+        tela_obj.desenha_circulos()
+        tela_obj.sorteiaCor()
+        tela_obj.escreveCorNaTela()   
+        tela_obj.checa_colisao()
     
     
     
@@ -162,7 +182,11 @@ while running:
        
        
  
-    
+    for event in pygame.event.get():
+        
+        
+        if event.type == pygame.QUIT:
+            running = False
     # Flip the display
     pygame.display.flip()
     fpsClock.tick(FPS)
