@@ -8,14 +8,18 @@ pygame.init()
 
 SCREEN_SIZE=(800,500)
 screen = pygame.display.set_mode(SCREEN_SIZE)
-pygame.display.set_caption("Genius confusão")
+pygame.display.set_caption("Troca-cor")
 
 #cores em RGB
 BRANCO_COR= (255,255,255)
 ROSA_COR = (255, 78, 183)
+ROSA_ESCURO_COR = (204, 0, 122)
 AMARELO_CLARO_COR= (255, 255, 27)
+AMARELO_ESCURO_COR= (204, 204, 0)
 AZUL_COR=(55, 102, 253)
+AZUL_ESCURO_COR = (2, 49, 202)
 VERDE_COR=(55, 251, 49)
+VERDE_ESCURO_COR=(11, 200, 4)
 PRETO_COR=(0,0,0)
 VERDE_LIMAO_COR=(169, 255, 36)
 
@@ -38,6 +42,7 @@ yogurt_mango_font_maior = pygame.font.Font(caminho_fontes+"Yogurt Mango.ttf", 50
 
 #Vetores
 vetor_cores=[ROSA_COR, AMARELO_CLARO_COR, AZUL_COR, VERDE_COR]
+vetor_cores_escuras=[ROSA_ESCURO_COR, AMARELO_ESCURO_COR, AZUL_ESCURO_COR, VERDE_ESCURO_COR]
 vetor_rects=[0,0,0,0]
 vetor_cores_nomes=["Rosa", "Amarelo", "Azul", "Verde"]
 
@@ -62,7 +67,7 @@ class Tela():
     cor_clicada = ""
     dic = {}
     pontos = 0
-    
+    circulo_nao_clicado = True
     # pos_x = (SCREEN_SIZE[0]-500)/2
     
     # def __init__(self):
@@ -77,13 +82,23 @@ class Tela():
         # self.pos_x = 225
         self.pos_y = 350
         i = 0
-        for cor in vetor_cores:
-            rect = pygame.draw.circle(screen, cor, (self.vetor_posicao_circulos[i], self.pos_y), 50)
-            vetor_rects[i] = rect
-            self.dic[vetor_cores_nomes[i]]=rect
-              
-            i+=1
+        
+        if self.circulo_nao_clicado:
             
+            for cor in vetor_cores:
+                rect = pygame.draw.circle(screen, cor, (self.vetor_posicao_circulos[i], self.pos_y), 50)
+                vetor_rects[i] = rect
+                self.dic[vetor_cores_nomes[i]]=rect
+                  
+                i+=1
+        else:
+            self.circulo_nao_clicado = True
+            for cor in vetor_cores_escuras:
+                rect = pygame.draw.circle(screen, cor, (self.vetor_posicao_circulos[i], self.pos_y), 50)
+                vetor_rects[i] = rect
+                self.dic[vetor_cores_nomes[i]]=rect
+                  
+                i+=1   
             
    
 
@@ -94,6 +109,7 @@ class Tela():
         click = pygame.mouse.get_pressed()
         
         if  click[0]:
+            self.circulo_nao_clicado = False
             for rect in vetor_rects:
                 
                 point = pygame.mouse.get_pos()
