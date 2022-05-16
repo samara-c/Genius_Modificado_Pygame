@@ -143,7 +143,7 @@ class Tela():
             self.num_cor_do_texto = randint(0, (len(vetor_cores_nomes))-1)
             self.sorteio = False
             
-    def escreveCorNaTela(self):
+    def escreveAnimalNaTela(self):
         textofinal = quickens_font.render((vetor_cores_nomes[self.num_cor]), True, (vetor_cores[self.num_cor_do_texto]))
         screen.blit(textofinal, (350, 155))     
         
@@ -189,7 +189,7 @@ while running:
         tela_obj.escrevePontosNaTela()
         tela_obj.desenha_circulos()
         tela_obj.sorteiaCor()
-        tela_obj.escreveCorNaTela()   
+        tela_obj.escreveAnimalNaTela()   
         tela_obj.checa_colisao()
     
     

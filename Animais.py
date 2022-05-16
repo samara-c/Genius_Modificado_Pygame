@@ -87,7 +87,7 @@ class Tela():
     nivel = 1
     sorteio_var = 5
     continuar = True
-    vetor_sorteio = [0,0,0,0,0]
+    vetor_sorteio = [0]
     # pos_x = (SCREEN_SIZE[0]-500)/2
     
     def __init__(self):
@@ -195,6 +195,7 @@ class Tela():
                             if (item == vetor_animais_nomes[self.num_cor]):
                                 print ("MESMA COR!")
                                 self.pontos+=1
+                                self.vetor_sorteio.append(0)
                             
                             # ELE ESTA RECONHECENDO A COR ONDE EH CLICADO POR CONTA DO DICIONARIO QUE EU CRIEI. AGORA PRECISO APENAS ASSOCIAR COM A POSICAO SORTEADA NO INICIO 
                     
@@ -225,13 +226,12 @@ class Tela():
                 print ("sorteado")
             self.sorteio = False        
             
-    def escreveCorNaTela(self):
+    def escreveAnimalNaTela(self):
         
         pos_1 = 200
         pos_2 = 155
         
         for num in self.vetor_sorteio:
-            print("OI")
             textofinal = quickens_font.render((vetor_animais_nomes[self.vetor_sorteio[num]]), True, PRETO_COR)
             screen.blit(textofinal, (pos_1, pos_2))
             pos_1+=150     
@@ -279,7 +279,7 @@ while running:
         tela_obj.escrevePontosNaTela()
         tela_obj.desenha_animais()
         tela_obj.sorteiaAnimal()
-        tela_obj.escreveCorNaTela()   
+        tela_obj.escreveAnimalNaTela()   
         tela_obj.checa_colisao()
     
     
