@@ -87,7 +87,7 @@ class Tela():
     nivel = 1
     sorteio_var = 5
     continuar = True
-    vetor_sorteio = []
+    vetor_sorteio = [0,0,0,0,0]
     # pos_x = (SCREEN_SIZE[0]-500)/2
     
     def __init__(self):
@@ -213,14 +213,16 @@ class Tela():
             self.sorteio = False
             
     def sorteiaAnimal(self):
-        self.vetor_sorteio = []*self.sorteio_var
         i = 0
+        
+      
         if self.sorteio:
-            while (i<self.sorteio_var):
+            while (i<len(self.vetor_sorteio)-1):
                 self.num_cor = randint(0, (len(vetor_animais_nomes)-1))
                 self.num_cor_do_texto = randint(0, (len(vetor_cores_nomes))-1)
                 self.vetor_sorteio[i] = self.num_cor
                 i+=1
+                print ("sorteado")
             self.sorteio = False        
             
     def escreveCorNaTela(self):
@@ -229,7 +231,8 @@ class Tela():
         pos_2 = 155
         
         for num in self.vetor_sorteio:
-            textofinal = quickens_font.render((vetor_animais_nomes[self.vetor_sorteio[num]]), True, (vetor_cores[self.num_cor_do_texto]))
+            print("OI")
+            textofinal = quickens_font.render((vetor_animais_nomes[self.vetor_sorteio[num]]), True, PRETO_COR)
             screen.blit(textofinal, (pos_1, pos_2))
             pos_1+=150     
         
@@ -275,7 +278,7 @@ while running:
         tela_obj.monta_tela()
         tela_obj.escrevePontosNaTela()
         tela_obj.desenha_animais()
-        tela_obj.sorteiaCor()
+        tela_obj.sorteiaAnimal()
         tela_obj.escreveCorNaTela()   
         tela_obj.checa_colisao()
     
