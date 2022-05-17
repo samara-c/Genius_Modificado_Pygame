@@ -43,7 +43,7 @@ yogurt_mango_font_maior = pygame.font.Font(caminho_fontes+"Yogurt Mango.ttf", 50
 
 #Vetores
 vetor_cores=[ROSA_COR, AMARELO_CLARO_COR, AZUL_COR, VERDE_COR]
-vetor_animais_nomes = ["GATO","RATO","SAPO","PATO"]
+vetor_animais_nomes = ["GATO","RATO","PATO","SAPO"]
 vetor_cores_escuras=[ROSA_ESCURO_COR, AMARELO_ESCURO_COR, AZUL_ESCURO_COR, VERDE_ESCURO_COR]
 vetor_rects=[0,0,0,0]
 vetor_cores_nomes=["Rosa", "Amarelo", "Azul", "Verde"]
@@ -177,8 +177,6 @@ class Tela():
         
         if  click[0]:
             self.circulo_nao_clicado = False
-            self.tamanho_figura_x = self.tamanho_figura_x+25
-            self.tamanho_figura_y = self.tamanho_figura_y+25
             for rect in vetor_rects:
                 
                 point = pygame.mouse.get_pos()
@@ -195,14 +193,14 @@ class Tela():
                             if (item == vetor_animais_nomes[self.num_cor]):
                                 print ("MESMA COR!")
                                 self.pontos+=1
-                                self.vetor_sorteio.append(0)
+                                vetor_tamanho = len(self.vetor_sorteio)
+                                self.sorteio = True
                             
                             # ELE ESTA RECONHECENDO A COR ONDE EH CLICADO POR CONTA DO DICIONARIO QUE EU CRIEI. AGORA PRECISO APENAS ASSOCIAR COM A POSICAO SORTEADA NO INICIO 
                     
                     print("COLIDIU    " + str(point) )
-                    
                     self.flag_colisao = True
-                    self.sorteio = True
+                    
                     break
                 
     
@@ -215,26 +213,29 @@ class Tela():
             
     def sorteiaAnimal(self):
         i = 0
-        
-      
         if self.sorteio:
-            while (i<len(self.vetor_sorteio)-1):
                 self.num_cor = randint(0, (len(vetor_animais_nomes)-1))
+                print(self.num_cor)
                 self.num_cor_do_texto = randint(0, (len(vetor_cores_nomes))-1)
                 self.vetor_sorteio[i] = self.num_cor
                 i+=1
                 print ("sorteado")
-            self.sorteio = False        
+                self.sorteio = False        
             
     def escreveAnimalNaTela(self):
         
-        pos_1 = 200
+        pos_1 = 350
         pos_2 = 155
         
+        
         for num in self.vetor_sorteio:
-            textofinal = quickens_font.render((vetor_animais_nomes[self.vetor_sorteio[num]]), True, PRETO_COR)
-            screen.blit(textofinal, (pos_1, pos_2))
-            pos_1+=150     
+            try:
+                textofinal = quickens_font.render((vetor_animais_nomes[self.num_cor]), True, PRETO_COR)
+                screen.blit(textofinal, (pos_1, pos_2))
+                pos_1+=150
+            except:
+                print("DEU ERRO" + str(self.vetor_sorteio))
+                print(vetor_animais_nomes)     
         
     def escrevePontosNaTela(self):
         textoPontos = yogurt_mango_font.render(str(self.pontos), True, PRETO_COR)   
@@ -243,7 +244,7 @@ class Tela():
         
     def telaDeInicio(self):
         screen.fill(PRETO_COR)
-        textoTitulo = yogurt_mango_font_maior.render("Bichenius", True, VERDE_LIMAO_COR)
+        textoTitulo = yogurt_mango_font_maior.render("Bichos", True, VERDE_LIMAO_COR)
         screen.blit(textoTitulo, (300,230))
         
         
@@ -277,8 +278,8 @@ while running:
         
         tela_obj.monta_tela()
         tela_obj.escrevePontosNaTela()
-        tela_obj.desenha_animais()
         tela_obj.sorteiaAnimal()
+        tela_obj.desenha_animais()
         tela_obj.escreveAnimalNaTela()   
         tela_obj.checa_colisao()
     
