@@ -8,7 +8,7 @@ pygame.init()
 
 SCREEN_SIZE=(800,500)
 screen = pygame.display.set_mode(SCREEN_SIZE)
-pygame.display.set_caption("Troca-cor")
+pygame.display.set_caption("BICHOS")
 
 #cores em RGB
 BRANCO_COR= (255,255,255)
@@ -37,6 +37,7 @@ caminho_icones = "icons//"
 #fontes
 arial_font = pygame.font.SysFont('arial',40)
 quickens_font = pygame.font.Font(caminho_fontes+"QUICKENS.ttf",55)
+yogurt_mango_font_menor = pygame.font.Font(caminho_fontes+"Yogurt Mango.ttf", 35)
 yogurt_mango_font = pygame.font.Font(caminho_fontes+"Yogurt Mango.ttf", 40)
 yogurt_mango_font_maior = pygame.font.Font(caminho_fontes+"Yogurt Mango.ttf", 50)
 
@@ -66,6 +67,11 @@ figura_sapo = "sapo_corpo_contorno.png"
 #icones
 icone_vida = "icone_coracao.png"
 icone_relogio = "icone_relogio.png"
+
+#temporizador
+CLOCKTICK = pygame.USEREVENT+1
+pygame.time.set_timer(CLOCKTICK, 1000) 
+temporizador = 60
 
 
 class Tela():
@@ -124,6 +130,9 @@ class Tela():
         self.icone_vida_tela = pygame.image.load(caminho_icones+icone_vida).convert_alpha()
         self.icone_vida_tela = pygame.transform.scale(self.icone_vida_tela, (45,45))
         
+        self.icone_relogio_tela = pygame.image.load(caminho_icones+icone_relogio).convert_alpha()
+        self.icone_relogio_tela = pygame.transform.scale(self.icone_relogio_tela, (40,40))
+        
         
     
     def inicializa_dicionario(self):
@@ -138,9 +147,12 @@ class Tela():
         pos_y = 40
         i = 0
         
+        Tela.escrevePontosNaTela(self)
+        Tela.escreveTempoNaTela(self)
+        screen.blit(self.icone_relogio_tela, (pos_x+520,pos_y))
         while (i < self.vidas_jogador):
             screen.blit(self.icone_vida_tela, (pos_x,pos_y))
-            pos_x += 60
+            pos_x += 50
             i+=1
        
             
@@ -270,6 +282,10 @@ class Tela():
         textoPontos = yogurt_mango_font.render(str(self.pontos), True, PRETO_COR)   
         screen.blit(textoPontos, (710,30))   
         
+    def escreveTempoNaTela(self):
+        textoTempo = yogurt_mango_font_menor.render(str(temporizador), True, AZUL_ESCURO_COR)
+        screen.blit(textoTempo, (620,35))    
+        
         
     def telaDeInicio(self):
         screen.fill(PRETO_COR)
@@ -306,7 +322,6 @@ while running:
     if tela_obj.comeco_jogo:
         
         tela_obj.monta_tela()
-        tela_obj.escrevePontosNaTela()
         tela_obj.sorteiaAnimal()
         tela_obj.desenha_animais()
         tela_obj.escreveAnimalNaTela()   
@@ -323,6 +338,9 @@ while running:
         
         if event.type == pygame.QUIT:
             running = False
+            
+        if event.type == CLOCKTICK:
+            temporizador-=1    
     # Flip the display
     pygame.display.flip()
     fpsClock.tick(FPS)
