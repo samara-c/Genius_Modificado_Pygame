@@ -30,6 +30,7 @@ fpsClock = pygame.time.Clock()
 #caminhos pastas
 caminho_fontes = "fonts//"
 caminho_figuras_animais="figs//"
+caminho_icones = "icons//"
 
 
 
@@ -62,6 +63,10 @@ figura_sapo = "sapo_corpo_contorno.png"
 #Tamanhos
 
 
+#icones
+icone_vida = "icone_coracao.png"
+icone_relogio = "icone_relogio.png"
+
 
 class Tela():
     
@@ -88,9 +93,15 @@ class Tela():
     sorteio_var = 5
     continuar = True
     vetor_sorteio = [0]
+    icone_vida_tela = "" 
+    icone_relogio_tela = ""
+    vidas_jogador = 3
+    
     # pos_x = (SCREEN_SIZE[0]-500)/2
     
     def __init__(self):
+        
+        #animais
         gato_figura_tela = pygame.image.load(caminho_figuras_animais+figura_gato).convert_alpha()
         gato_figura_tela = pygame.transform.scale(gato_figura_tela, (self.tamanho_figura_x, self.tamanho_figura_y))
         
@@ -107,6 +118,13 @@ class Tela():
         self.figuras_tela.append(rato_figura_tela)
         self.figuras_tela.append(pato_figura_tela)
         self.figuras_tela.append(sapo_figura_tela)
+        
+        
+        #icones
+        self.icone_vida_tela = pygame.image.load(caminho_icones+icone_vida).convert_alpha()
+        self.icone_vida_tela = pygame.transform.scale(self.icone_vida_tela, (45,45))
+        
+        
     
     def inicializa_dicionario(self):
         
@@ -116,6 +134,14 @@ class Tela():
         
     def monta_tela(self):
         screen.fill(BRANCO_COR)
+        pos_x = 50
+        pos_y = 40
+        i = 0
+        
+        while (i < self.vidas_jogador):
+            screen.blit(self.icone_vida_tela, (pos_x,pos_y))
+            pos_x += 60
+            i+=1
        
             
 
@@ -195,6 +221,9 @@ class Tela():
                                 self.pontos+=1
                                 vetor_tamanho = len(self.vetor_sorteio)
                                 self.sorteio = True
+                                
+                            else:
+                                self.vidas_jogador -= 1
                             
                             # ELE ESTA RECONHECENDO A COR ONDE EH CLICADO POR CONTA DO DICIONARIO QUE EU CRIEI. AGORA PRECISO APENAS ASSOCIAR COM A POSICAO SORTEADA NO INICIO 
                     
