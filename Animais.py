@@ -74,6 +74,7 @@ pygame.time.set_timer(CLOCKTICK, 1000)
 temporizador = 60
 
 
+
 class Tela():
     
     tamanho_figura_x = 75
@@ -102,6 +103,9 @@ class Tela():
     icone_vida_tela = "" 
     icone_relogio_tela = ""
     vidas_jogador = 3
+    aux_temp = 3
+    cor_letra = PRETO_COR
+    
     
     # pos_x = (SCREEN_SIZE[0]-500)/2
     
@@ -158,7 +162,7 @@ class Tela():
             
 
     def desenha_animais(self):
-        self.pos_y = 295
+        self.pos_y = 320
         i = 0
         
         
@@ -205,7 +209,15 @@ class Tela():
         
         
         
-                
+    
+    def define_tempo(self):
+        if self.sorteio == False:
+            if self.aux_temp == 0:
+                self.aux_temp = 3
+                self.sorteio = True
+            
+            
+                        
 
     def checa_colisao(self):
         
@@ -254,6 +266,7 @@ class Tela():
             
     def sorteiaAnimal(self):
         i = 0
+        j = randint(0, 2)
         if self.sorteio:
                 self.num_cor = randint(0, (len(vetor_animais_nomes)-1))
                 print(self.num_cor)
@@ -261,6 +274,17 @@ class Tela():
                 self.vetor_sorteio[i] = self.num_cor
                 i+=1
                 print ("sorteado")
+                
+                if j == 2:
+                    self.cor_letra = AZUL_COR
+                
+                if j == 1:
+                    self.cor_letra = VERDE_ESCURO_COR
+    
+
+                if j == 0:
+                    self.cor_letra = ROSA_COR
+    
                 self.sorteio = False        
             
     def escreveAnimalNaTela(self):
@@ -271,7 +295,7 @@ class Tela():
         
         for num in self.vetor_sorteio:
             try:
-                textofinal = quickens_font.render((vetor_animais_nomes[self.num_cor]), True, PRETO_COR)
+                textofinal = quickens_font.render((vetor_animais_nomes[self.num_cor]), True, self.cor_letra)
                 screen.blit(textofinal, (pos_1, pos_2))
                 pos_1+=150
             except:
@@ -326,6 +350,7 @@ while running:
         tela_obj.desenha_animais()
         tela_obj.escreveAnimalNaTela()   
         tela_obj.checa_colisao()
+        tela_obj.define_tempo()
     
     
     
@@ -341,6 +366,7 @@ while running:
             
         if event.type == CLOCKTICK:
             temporizador-=1    
+            tela_obj.aux_temp -=1
     # Flip the display
     pygame.display.flip()
     fpsClock.tick(FPS)
