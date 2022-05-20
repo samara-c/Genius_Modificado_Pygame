@@ -105,6 +105,7 @@ class Tela():
     vidas_jogador = 3
     aux_temp = 3
     cor_letra = PRETO_COR
+    condicao_derrota = False
     
     
     # pos_x = (SCREEN_SIZE[0]-500)/2
@@ -158,7 +159,12 @@ class Tela():
             screen.blit(self.icone_vida_tela, (pos_x,pos_y))
             pos_x += 50
             i+=1
-       
+            
+    def checa_condicao_de_derrota(self):
+        if self.vidas_jogador == 0:
+            self.condicao_derrota = True
+            self.comeco_jogo = False        
+            
             
 
     def desenha_animais(self):
@@ -324,7 +330,12 @@ class Tela():
             print("CLICADO")
             self.tela_inicio_jogo = False
             self.comeco_jogo = True
-        
+            
+    def telaDeDerrota(self):
+        screen.fill(PRETO_COR)
+        texto = yogurt_mango_font.render("Fim de jogo", True, AMARELO_ESCURO_COR)
+        screen.blit(texto, (200,230))
+            
             
     
             
@@ -350,11 +361,13 @@ while running:
         tela_obj.desenha_animais()
         tela_obj.escreveAnimalNaTela()   
         tela_obj.checa_colisao()
+        tela_obj.checa_condicao_de_derrota()
         tela_obj.define_tempo()
     
     
     
-        
+    if tela_obj.condicao_derrota:
+        tela_obj.telaDeDerrota()    
        
        
  
